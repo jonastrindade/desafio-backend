@@ -12,6 +12,26 @@ class Upload < ApplicationRecord
 
   def create_data
     data = SmarterCSV.process(ActiveStorage::Blob.service.path_for(self.csv_file.key), {col_sep: ','})
+    
+    # byebug
+
+    # puts data
+    
+    deputados = Array.new
+    deputados_object = Array.new 
+    data.each do |expense|
+      if expense[:sguf] == "MG"
+        if deputados.include?(expense[:txnomeparlamentar])
+          
+        else
+
+        end
+      end
+    end
+
+    byebug
+
+    puts deputados_object
   end
 
 end
