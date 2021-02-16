@@ -1,8 +1,14 @@
 Rails.application.routes.draw do
-  resources :uploads
-  devise_for :users
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
   root to: 'uploads#index'
-
+  
+  devise_for :users
+  
+  resources :uploads
+  
+  namespace :web do
+    resources :pages
+  end
+  
+  
 end
