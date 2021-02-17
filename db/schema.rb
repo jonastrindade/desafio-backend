@@ -39,11 +39,13 @@ ActiveRecord::Schema.define(version: 2021_02_16_033504) do
   create_table "congress_person_entities", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "uploads_id"
     t.string "registration_id"
     t.string "name"
     t.string "cpf"
     t.string "state"
     t.string "party"
+    t.index ["uploads_id"], name: "index_congress_person_entities_on_uploads_id"
   end
 
   create_table "congress_person_expenses", force: :cascade do |t|
