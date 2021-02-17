@@ -12,22 +12,22 @@
   <% end %>
 
   <div class="col">  
-    <div class="row mt-2">
+    <div class="row mt-3">
       <div class="field">
         <%= form.label :Ano %>
         <%= form.number_field :year, :required => true %>
       </div>
     </div>
   
-    <div class="row mt-2">
+    <div class="row mt-3">
       <div class="field">
         <%= form.file_field :csv_file %>
       </div>
     </div>
 
-    <div class="row mt-2">
+    <div class="row mt-3">
       <div class="actions">
-        <%= form.submit %>
+        <%= form.submit "Subir arquivo" %>
       </div>
     </div>
   </div>

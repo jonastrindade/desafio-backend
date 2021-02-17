@@ -72,16 +72,22 @@ export default class extends Controller {
 
   doUploadsHtml() {
     this.mainTarget.innerHTML =  ``
-    var lineHtml = ``
+    var linesHtml = ``
     this.uploads.files.forEach(element => {
 
-      lineHtml += `<tr>
-                    <td>${element.year}</td>
+      if (element.year == 'null') {
+        var year = 'NA'
+      } else {
+        var year = element.year
+      }
+
+      linesHtml += `<tr>
+                    <td>${year}</td>
                     <td><button id="${element.id}" data-action="click->web--pages--index#doHtmlCongressPersons" class="btn btn-light">Deputados</button></td>
                   </tr>`
     });
 
-    var tableHtml = `<table class="table mt-5">
+    var tableHtml = `<table class="table mt-3">
                       <thead>
                         <tr>
                           <th scope="col">Ano</th>
@@ -89,7 +95,7 @@ export default class extends Controller {
                         </tr>
                       </thead>
                       <tbody>
-                        ${lineHtml}
+                        ${linesHtml}
                       </tbody>
                     </table>`
 
@@ -97,32 +103,30 @@ export default class extends Controller {
   }
 
   doHtmlCongressPersons(ev) {
-    console.log(this.congressPersons.congress_persons)
-    console.log(ev.target.id)
     this.mainTarget.innerHTML =  ``
-    var lineHtml = ``
+    var linesHtml = ``
     this.congressPersons.congress_persons.forEach(element => {
       if (element.uploads_id == ev.target.id) {
-        lineHtml += `<tr>
+        linesHtml += `<tr>
                       <td>${element.name}</td>
                       <td>${element.party}</td>
-                      <td>${element.party}</td>
+                      <td>${element.registration_id}</td>
                       <td><button id="${element.id}" data-action="click->web--pages--index#doHtmlCongressPersonsExpenses" class="btn btn-light">Gastos</button></td>
                     </tr>`
       }
     });
 
-    var tableHtml = `<table class="table">
+    var tableHtml = `<table class="table mt-3">
                       <thead>
                         <tr>
                           <th scope="col">Nome</th>
                           <th scope="col">Partido</th>
-                          <th scope="col">Id Doc</th>
+                          <th scope="col">Número de Registro</th>
                           <th scope="col">Gastos</th>
                         </tr>
                       </thead>
                       <tbody>
-                        ${lineHtml}
+                        ${linesHtml}
                       </tbody>
                     </table>`
 
@@ -130,22 +134,49 @@ export default class extends Controller {
   }
 
   doHtmlCongressPersonsExpenses(ev) {
-    console.log(this.congressPersonsExpenses.expenses)
-    console.log(ev.target.id)
+    console.log(this.congressPersonsCalculations.calculations)
     this.mainTarget.innerHTML =  ``
-    var lineHtml = ``
+    var linesHtml = ``
+    var cardsHtml = ``
+
+    this.congressPersonsCalculations.calculations.forEach(element => {
+      if (element.congress_person_entities_id == ev.target.id) {
+        cardsHtml += `<div class="card bg-light mb-3" style="max-width: 18rem;">
+                        <div class="card-header">Soma dos gastos</div>
+                        <div class="card-body">
+                          <h5 class="card-title">R$ ${Number(element.net_value_sum).toFixed(2)}</h5>
+                        </div>
+                      </div>
+                      <div class="card bg-light mb-3" style="max-width: 18rem;">
+                        <div class="card-header">Maior gasto</div>
+                        <div class="card-body">
+                          <h5 class="card-title">R$ ${Number(element.net_value_max).toFixed(2)}</h5>
+                        </div>
+                      </div>
+                      <div class="card bg-light mb-3" style="max-width: 18rem;">
+                        <div class="card-header">Menor Gasto</div>
+                        <div class="card-body">
+                          <h5 class="card-title">R$ ${Number(element.net_value_min).toFixed(2)}</h5>
+                        </div>
+                      </div>`
+      }
+    });
+    
     this.congressPersonsExpenses.expenses.forEach(element => {
       if (element.congress_person_entities_id == ev.target.id) {
-        lineHtml += `<tr>
+        linesHtml += `<tr>
                       <td>${element.issue_date}</td>
                       <td>${element.provider}</td>
-                      <td>${element.net_value}</td>
-                      <td>${element.document_url}</td>
+                      <td>R$ ${Number(element.net_value).toFixed(2)}</td>
+                      <td><a href="${element.document_url}" target="_blank">Link</a></td>
                     </tr>`
       }
     });
 
-    var tableHtml = `<table class="table">
+    var tableHtml = `<div class="mt-3 card-deck justify-content-center">
+                      ${cardsHtml}                      
+                    </div>
+                    <table class="table">
                       <thead>
                         <tr>
                           <th scope="col">Data de Emissão</th>
@@ -155,7 +186,7 @@ export default class extends Controller {
                         </tr>
                       </thead>
                       <tbody>
-                        ${lineHtml}
+                        ${linesHtml}
                       </tbody>
                     </table>`
 
