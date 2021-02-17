@@ -2,7 +2,7 @@ class UploadsController < ApplicationController
   before_action :set_upload, only: [:show, :edit, :update, :destroy]
 
   def index
-    @uploads = Upload.all
+    render :json =>{ files: Upload.all }.to_json
   end
 
   def show
