@@ -11,6 +11,7 @@ export default class extends Controller {
     this.getCongressPersonExpenses()
   }
 
+  // buscamos todos uploads ja realizados na api uploads
   getUploads() {
     var controller = this
     const token = $('meta[name=csrf-token]').attr('content');
@@ -27,7 +28,7 @@ export default class extends Controller {
         console.log(error)
       })
   }
-
+  // buscamos todos deputados ja cadstrados na api de deputados
   getCongressPersons() {
     const token = $('meta[name=csrf-token]').attr('content');
     const url = "/congress_persons/entities"
@@ -42,6 +43,7 @@ export default class extends Controller {
       })
   }
 
+  // buscamos todas analise de dados ja cadstrados na api de analise de dados
   getCongressPersonsCalculations() {
     const token = $('meta[name=csrf-token]').attr('content');
     const url = "/congress_persons/calculations"
@@ -56,6 +58,7 @@ export default class extends Controller {
       })
   }
 
+  // buscamos todas despesas ja cadstrados na api de despesas
   getCongressPersonExpenses() {
     const token = $('meta[name=csrf-token]').attr('content');
     const url = "/congress_persons/expenses"
@@ -70,6 +73,7 @@ export default class extends Controller {
       })
   }
 
+  // geramos o html das despesas
   doUploadsHtml() {
     this.mainTarget.innerHTML =  ``
     var linesHtml = ``
@@ -102,6 +106,7 @@ export default class extends Controller {
     this.mainTarget.innerHTML = tableHtml
   }
 
+  // geramos o html dos deputados 
   doHtmlCongressPersons(ev) {
     this.mainTarget.innerHTML =  ``
     var linesHtml = ``
@@ -133,6 +138,7 @@ export default class extends Controller {
     this.mainTarget.innerHTML = tableHtml
   }
 
+  // geramos o html das despesas por deputados + analise de dados 
   doHtmlCongressPersonsExpenses(ev) {
     console.log(this.congressPersonsCalculations.calculations)
     this.mainTarget.innerHTML =  ``

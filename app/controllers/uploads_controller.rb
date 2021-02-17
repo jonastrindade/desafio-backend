@@ -1,6 +1,7 @@
 class UploadsController < ApplicationController
   before_action :set_upload, only: [:show, :edit, :update, :destroy]
 
+  # route to uplods list api
   def index
     render :json =>{ files: Upload.all }.to_json
   end
@@ -15,6 +16,7 @@ class UploadsController < ApplicationController
   def edit
   end
 
+  # page to upload file
   def create
     @upload = Upload.new(upload_params)
     @upload.user_id = current_user.id
