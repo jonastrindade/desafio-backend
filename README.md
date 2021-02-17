@@ -1,4 +1,5 @@
 ## Ferramentas
+- Webpack
 - StimulusJS
 - Bootstrap
 - SmarterCSV
