@@ -18,18 +18,21 @@ class Upload < ApplicationRecord
     congress_persons = Array.new
 
     data.each do |expense|
-      expense[:datemissao].present? ? issue_date = expense[:datemissao].to_date : isse_date = "2020-01-01".to_date.end_of_year
+
       if expense[:sguf] == "MG"
         if congress_persons.include?(expense[:txnomeparlamentar])
-          congress_person = CongressPerson::Entity.find_by(name: expense[:txnomeparlamentar])
-          CongressPerson::Expense.create!(congress_person_entities_id: congress_person.id, issue_date: issue_date, provider: expense[:txtfornecedor], net_value: expense[:vlrliquido], document_url: expense[:urldocumento])
+          congress_person = CongressPerson::Entity.find_by_name expense[:txnomeparlamentar]
+          CongressPerson::Expense.create_expense congress_person.id, expense
         else
           congress_persons << expense[:txnomeparlamentar]
-          congress_person = CongressPerson::Entity.create!(uploads_id: upload_id, registration_id: expense[:idecadastro], name: expense[:txnomeparlamentar], cpf: expense[:cpf], state: expense[:sguf], party: expense[:sgpartido])
-          CongressPerson::Expense.create!(congress_person_entities_id: congress_person.id, issue_date: issue_date, provider: expense[:txtfornecedor], net_value: expense[:vlrliquido], document_url: expense[:urldocumento])
+          congress_person = CongressPerson::Entity.create_congress_person upload_id, expense
+          CongressPerson::Expense.create_expense congress_person.id, expense
         end
       end
+
     end
+    CongressPerson::Entity.all_congress_person self.id
+
   end
 
 end
